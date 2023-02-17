@@ -79,7 +79,7 @@ class LoginScreen extends StatelessWidget {
                           key: AppStringConstant.cacheHelperSaveUserNumber,
                           value: num);
                       //print(num);
-                      await FirebaseAuth.instance.verifyPhoneNumber(
+                      await AppVariableConstants.auth.verifyPhoneNumber(
                         phoneNumber: num,
                         verificationCompleted:
                             (PhoneAuthCredential credential) async {
@@ -87,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                               .signInWithCredential(credential);
                         },
                         verificationFailed: (FirebaseAuthException e) {
-                          if (e.code == 'invalid-phone-number') {
+                          /*if (e.code == 'invalid-phone-number') {
                             showFlutterToast(
                                 message: 'Invalid phone number',
                                 state: ToastState.error);
@@ -95,11 +95,12 @@ class LoginScreen extends StatelessWidget {
                             showFlutterToast(
                                 message: 'There is no signal try again later',
                                 state: ToastState.error);
-                          }
+                          }*/
+                          showFlutterToast(
+                              message: 'Try again later',
+                              state: ToastState.error);
                         },
                         codeSent: (String verificationId, int? resendToken) {
-                          AppVariableConstants.saveVerificationId =
-                              verificationId;
                           navigateTo(context, OtpScreen());
                         },
                         codeAutoRetrievalTimeout: (String verificationId) {

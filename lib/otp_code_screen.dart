@@ -216,9 +216,9 @@ class OtpScreen extends StatelessWidget {
                   onPressed: () {
                     String allControllers =
                         "${codeController1.text}${codeController2.text}${codeController3.text}${codeController4.text}${codeController5.text}${codeController6.text}";
-                    int otp = int.parse(allControllers);
                     if (formKey.currentState!.validate()) {
                       print(AppVariableConstants.saveVerificationId);
+                      print("------------------------------------------------");
                       if (allControllers ==
                           AppVariableConstants.saveVerificationId) {
                         showFlutterToast(
