@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'core/constant/app_string_constants.dart';
 import 'core/services/cache_helper.dart';
 import 'firebase_options.dart';
-import 'login_screen.dart';
-import 'otp_code_screen.dart';
+import 'loginscreen/login_screen.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();

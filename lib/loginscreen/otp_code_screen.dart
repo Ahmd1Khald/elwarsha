@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'core/constant/app_color_constant.dart';
-import 'core/constant/app_string_constants.dart';
-import 'core/constant/app_variable_constants.dart';
-import 'core/global/widgets/show_flutter_toast.dart';
+import '../core/constant/app_color_constant.dart';
+import '../core/constant/app_variable_constants.dart';
+import '../core/global/widgets/show_flutter_toast.dart';
 
 class OtpScreen extends StatelessWidget {
   OtpScreen({Key? key}) : super(key: key);
