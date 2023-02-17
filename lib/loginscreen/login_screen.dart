@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import 'core/constant/app_color_constant.dart';
-import 'core/constant/app_string_constants.dart';
-import 'core/constant/app_variable_constants.dart';
-import 'core/global/widgets/navigate_to.dart';
-import 'core/global/widgets/show_flutter_toast.dart';
-import 'core/services/cache_helper.dart';
+import '../core/constant/app_color_constant.dart';
+import '../core/constant/app_string_constants.dart';
+import '../core/constant/app_variable_constants.dart';
+import '../core/global/widgets/navigate_to.dart';
+import '../core/global/widgets/show_flutter_toast.dart';
+import '../core/services/cache_helper.dart';
 import 'otp_code_screen.dart';
 
 class LoginScreen extends StatelessWidget {
