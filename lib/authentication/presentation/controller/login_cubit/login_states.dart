@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../domain/entities/auth_entity.dart';
 abstract class LoginStates extends Equatable {
@@ -27,6 +28,42 @@ class LoginErrorState extends LoginStates {
   @override
   List<Object> get props => [errorMessage];
 }
+
+class SendVerifyCodeLoadingState extends LoginStates {}
+
+class SendVerifyCodeSuccessState extends LoginStates {
+  SendVerifyCodeSuccessState();
+}
+
+class SendVerifyCodeErrorState extends LoginStates {
+  final String errorMessage;
+
+  SendVerifyCodeErrorState({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
+class ConfirmVerifyCodeLoadingState extends LoginStates {}
+
+class ConfirmVerifyCodeSuccessState extends LoginStates {
+  final PhoneAuthCredential credential;
+
+  ConfirmVerifyCodeSuccessState({required this.credential});
+
+  @override
+  List<Object> get props => [credential];
+}
+
+class ConfirmVerifyCodeErrorState extends LoginStates {
+  final String errorMessage;
+
+  ConfirmVerifyCodeErrorState({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
 
 /*
 class LoginDisActiveVisibilityState extends LoginStates {}
