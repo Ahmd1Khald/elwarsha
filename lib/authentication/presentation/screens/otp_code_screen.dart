@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../core/constant/app_color_constant.dart';
-import '../core/constant/app_variable_constants.dart';
-import '../core/global/widgets/show_flutter_toast.dart';
+import '../../../core/constant/app_color_constant.dart';
+import '../../../core/constant/app_variable_constants.dart';
+import '../../../core/global/widgets/show_flutter_toast.dart';
+import '../controller/login_cubit/login_cubit.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({Key? key}) : super(key: key);
+  final LoginCubit cubit;
+
+  OtpScreen({Key? key, required this.cubit})
+      : super(key: key);
   var codeController1 = TextEditingController();
   var codeController2 = TextEditingController();
   var codeController3 = TextEditingController();
@@ -214,7 +218,7 @@ class OtpScreen extends StatelessWidget {
                   onPressed: () {
                     String allControllers =
                         "${codeController1.text}${codeController2.text}${codeController3.text}${codeController4.text}${codeController5.text}${codeController6.text}";
-                    if (formKey.currentState!.validate()) {
+                    /*if (formKey.currentState!.validate()) {
                       print(AppVariableConstants.saveVerificationId);
                       print("------------------------------------------------");
                       if (allControllers ==
@@ -226,6 +230,11 @@ class OtpScreen extends StatelessWidget {
                             message: 'Invalid phone number',
                             state: ToastState.error);
                       }
+                    }*/
+                    if (formKey.currentState!.validate()) {
+                      cubit.confirmVerificationCode(
+                        smsCode: allControllers,
+                      );
                     }
                   },
                   child: const Text(
