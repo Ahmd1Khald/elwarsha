@@ -1,21 +1,26 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
-Future<dynamic> navigateTo(BuildContext context, Widget screen) {
-  return Navigator.push(
-    context,
+Future<dynamic> navigateTo({
+  required BuildContext context,
+  required Widget destination,
+}) {
+  return Navigator.of(context).pushReplacement(
     PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 500),
-        transitionsBuilder: (context, animation, animationTime, child) {
-          animation =
-              CurvedAnimation(parent: animation, curve: Curves.easeIn);
-          return ScaleTransition(
-            scale: animation,
-            alignment: Alignment.center,
-            child: child,
-          );
-        },
-        pageBuilder: (context, animation, animationTime) {
-          return screen;
-        }),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        //timeDilation = 2.0;
+        return SharedAxisTransition(
+          transitionType: SharedAxisTransitionType.horizontal,
+          secondaryAnimation: secondaryAnimation,
+          animation: animation,
+          //fillColor: AppColorConstant.secondaryAppPrimaryDarkColor,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(seconds: 2),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return destination;
+      },
+    ),
   );
 }

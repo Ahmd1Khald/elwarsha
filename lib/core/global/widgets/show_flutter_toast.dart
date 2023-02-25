@@ -10,7 +10,8 @@ Future<bool?> showFlutterToast({required String message,required ToastState stat
     gravity: ToastGravity.BOTTOM,
     timeInSecForIosWeb: 1,
     backgroundColor: state == ToastState.error? Colors.red:Colors.green,
-    textColor: AppColorConstant.titleMedLightColor,
+    ///Todo: Text Color
+    //textColor: AppColorConstant.titleMedLightColor,
     fontSize: 16.0,
   );
 }

@@ -1,26 +1,44 @@
+import 'package:elwarsha/core/constant/app_color_constant.dart';
 import 'package:flutter/material.dart';
 
-ThemeData getLightThemeData = ThemeData(
-    scaffoldBackgroundColor: Colors.grey[400],
-    primaryColor: Colors.grey,
+import '../../constant/app_size_constat.dart';
+import '../../constant/app_string_constants.dart';
+
+ThemeData getLightThemeData() => ThemeData(
+    scaffoldBackgroundColor: AppColorConstant.backgroundColor,
+    primaryColor: AppColorConstant.primaryColor,
+    primaryColorDark: AppColorConstant.secondaryColor,
+    focusColor: Colors.grey,
     textTheme: const TextTheme(
-      /*titleMedium: TextStyle(
+      titleLarge: TextStyle(
         fontFamily: AppStringConstant.cairoFont,
         fontWeight: FontWeight.bold,
+        fontSize: AppSizeConstant.titleLargeSize,
+        color: AppColorConstant.primaryColor,
+      ),
+      titleMedium: TextStyle(
+        fontFamily: AppStringConstant.cairoFont,
+        color: AppColorConstant.titleMedColor,
         fontSize: AppSizeConstant.titleMediumSize,
-        color: AppColorConstant.titleMedLightColor,
-      ),*/
-      /*bodyMedium: TextStyle(
-        fontFamily: AppStringConstant.cairoFont,
-        color: AppColorConstant.bodyMedLightColor,
-        fontSize: AppSizeConstant.bodyMediumSize,
         fontWeight: FontWeight.bold,
-      ),*/
-      /*bodySmall: TextStyle(
+      ),
+      bodyLarge: TextStyle(
           fontFamily: AppStringConstant.cairoFont,
-          color: AppColorConstant.titleMedLightColor,
+          color: AppColorConstant.bodyLargeColor,
           fontSize: AppSizeConstant.bodySmallSize,
-          fontWeight: FontWeight.bold),*/
+          fontWeight: FontWeight.bold),
+      bodySmall: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontStyle: FontStyle.italic
+      ),
+      labelMedium: TextStyle(
+          fontFamily: AppStringConstant.cairoFont,
+          color: AppColorConstant.labelMedColor,
+          fontSize: AppSizeConstant.labelMedSize,
+          fontWeight: FontWeight.bold,
+      ),
     ),
     // appBarTheme: AppBarTheme(
     //   backgroundColor: Colors.grey[400],

@@ -1,4 +1,6 @@
 import 'package:elwarsha/authentication/presentation/controller/login_cubit/login_cubit.dart';
+import 'package:elwarsha/core/constant/app_path_constant.dart';
+import 'package:elwarsha/core/global/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constant/app_color_constant.dart';
@@ -22,7 +24,6 @@ class LoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
           LoginCubit cubit = LoginCubit.get(context);
-          // TODO: implement listener
           if (state is SendVerifyCodeLoadingState) {
             showDialog(
               barrierDismissible: false,
@@ -46,7 +47,6 @@ class LoginScreen extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => OtpScreen(
                   cubit: cubit,
-
                 ),
               ),
             );
@@ -62,13 +62,11 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             );
-          }
-          else if (state is ConfirmVerifyCodeErrorState) {
+          } else if (state is ConfirmVerifyCodeErrorState) {
             showFlutterToast(
                 message: state.errorMessage, state: ToastState.error);
             Navigator.of(context).pop();
-          }
-          else if (state is ConfirmVerifyCodeSuccessState) {
+          } else if (state is ConfirmVerifyCodeSuccessState) {
             ///Todo:  Login to database using phone number
 
             // the credential user data
@@ -80,59 +78,79 @@ class LoginScreen extends StatelessWidget {
         builder: (context, state) {
           LoginCubit cubit = LoginCubit.get(context);
           return Scaffold(
-            body: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    cursorColor: AppColorConstant.loginCursorColor,
-                    decoration: InputDecoration(
-                      hintText: AppStringConstant.loginHintText,
-                      hintStyle: const TextStyle(
-                          color: AppColorConstant.loginHintTextColor),
-                      prefixIcon: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            '+20',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: AppColorConstant.loginHintTextColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: AppColorConstant.loginBorderColor)),
-                      enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: AppColorConstant.loginBorderColor)),
-                      focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: AppColorConstant.loginBorderColor)),
+            body: SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppStringConstant.appTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    controller: phoneController,
-                    keyboardType: TextInputType.phone,
-                    validator: (String? value) {
-                      if (value!.length < 11) {
-                        return 'Invalid phone number';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(0),
-                        border: Border.all(color: Colors.black)),
-                    child: MaterialButton(
+                    Text(
+                      'Be safe with us',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Form(
+                      key: formKey,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.65,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image:
+                                  AssetImage(AppPathConstant.splashBackground),
+                              fit: BoxFit.cover),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: MediaQuery.of(context).size.height * 0.30,
+                            horizontal: 30,
+                          ),
+                          child: TextFormField(
+                            cursorColor: Theme.of(context).textTheme.bodyLarge!.color,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontSize: 25),
+                            decoration: InputDecoration(
+                              hintText: AppStringConstant.loginHintText,
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                      color: AppColorConstant.primaryColor),
+                              focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColorConstant.primaryColor,
+                                ),
+                              ),
+                              enabled: true,
+                              enabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                              ),
+                            ),
+                            controller: phoneController,
+                              keyboardType: TextInputType.phone,
+                              validator: (String? value) {
+                                if (value!.length < 11) {
+                                  return 'Invalid phone number';
+                                }
+                                return null;
+                              },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 25.0,
+                        horizontal: MediaQuery.of(context).size.width * 0.3,
+                      ),
+                      child: CustomButton(
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
                             String num = '+20${phoneController.text}';
@@ -144,45 +162,99 @@ class LoginScreen extends StatelessWidget {
                             ///ToDo : Verify Phone number
                             cubit.sendVerificationCode(phoneNumber: num);
                             /* await AppVariableConstants.auth.verifyPhoneNumber(
-                        phoneNumber: num,
-                        verificationCompleted:
-                            (PhoneAuthCredential credential) async {
-                          await AppVariableConstants.auth
-                              .signInWithCredential(credential);
-                        },
-                        verificationFailed: (FirebaseAuthException e) {
-                          if (e.code == 'invalid-phone-number') {
-                            showFlutterToast(
-                                message: 'Invalid phone number',
-                                state: ToastState.error);
-                          } else {
-                            showFlutterToast(
-                                message: 'There is no signal try again later',
-                                state: ToastState.error);
+                            phoneNumber: num,
+                            verificationCompleted:
+                                (PhoneAuthCredential credential) async {
+                              await AppVariableConstants.auth
+                                  .signInWithCredential(credential);
+                            },
+                            verificationFailed: (FirebaseAuthException e) {
+                              if (e.code == 'invalid-phone-number') {
+                                showFlutterToast(
+                                    message: 'Invalid phone number',
+                                    state: ToastState.error);
+                              } else {
+                                showFlutterToast(
+                                    message: 'There is no signal try again later',
+                                    state: ToastState.error);
+                              }
+                              showFlutterToast(
+                                  message: 'Try again later',
+                                  state: ToastState.error);
+                            },
+                            codeSent: (String verificationId, int? resendToken) {
+                              navigateTo(context, OtpScreen());
+                            },
+                            codeAutoRetrievalTimeout: (String verificationId) {
+                              AppVariableConstants.saveVerificationId =
+                                  verificationId;
+                            },
+                          );*/
                           }
-                          showFlutterToast(
-                              message: 'Try again later',
-                              state: ToastState.error);
                         },
-                        codeSent: (String verificationId, int? resendToken) {
-                          navigateTo(context, OtpScreen());
-                        },
-                        codeAutoRetrievalTimeout: (String verificationId) {
-                          AppVariableConstants.saveVerificationId =
-                              verificationId;
-                        },
-                      );*/
-                          }
-                        },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                              color: AppColorConstant.loginCursorColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22),
-                        )),
-                  ),
-                ],
+                        color: AppColorConstant.primaryColor,
+                        child: Text('Confirm',
+                            style: Theme.of(context).textTheme.labelMedium),
+                      ),
+                    )
+                    /*Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(0),
+                          border: Border.all(color: Colors.black)),
+                      child: MaterialButton(
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              String num = '+20${phoneController.text}';
+                              CacheHelper.saveData(
+                                  key:
+                                      AppStringConstant.cacheHelperSaveUserNumber,
+                                  value: num);
+                              //print(num);
+                              ///ToDo : Verify Phone number
+                              cubit.sendVerificationCode(phoneNumber: num);
+                              */ /* await AppVariableConstants.auth.verifyPhoneNumber(
+                          phoneNumber: num,
+                          verificationCompleted:
+                              (PhoneAuthCredential credential) async {
+                            await AppVariableConstants.auth
+                                .signInWithCredential(credential);
+                          },
+                          verificationFailed: (FirebaseAuthException e) {
+                            if (e.code == 'invalid-phone-number') {
+                              showFlutterToast(
+                                  message: 'Invalid phone number',
+                                  state: ToastState.error);
+                            } else {
+                              showFlutterToast(
+                                  message: 'There is no signal try again later',
+                                  state: ToastState.error);
+                            }
+                            showFlutterToast(
+                                message: 'Try again later',
+                                state: ToastState.error);
+                          },
+                          codeSent: (String verificationId, int? resendToken) {
+                            navigateTo(context, OtpScreen());
+                          },
+                          codeAutoRetrievalTimeout: (String verificationId) {
+                            AppVariableConstants.saveVerificationId =
+                                verificationId;
+                          },
+                        );*/ /*
+                            }
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                          )),
+                    ),*/
+                  ],
+                ),
               ),
             ),
           );
