@@ -1,6 +1,7 @@
 import 'package:elwarsha/core/global/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constant/app_color_constant.dart';
 import '../../../core/constant/app_path_constant.dart';
 import '../../../core/constant/app_string_constants.dart';
@@ -9,6 +10,7 @@ import '../../../core/global/widgets/show_flutter_toast.dart';
 import '../components/otp_components/verify_code_body.dart';
 import '../components/otp_components/verify_code_form.dart';
 import '../controller/login_cubit/login_cubit.dart';
+import '../controller/login_cubit/login_states.dart';
 
 class OtpScreen extends StatelessWidget {
   final LoginCubit cubit;
@@ -24,7 +26,8 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -38,7 +41,14 @@ class OtpScreen extends StatelessWidget {
                 'Be safe with us',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              VerifyCodeBody(formKey: formKey, codeController1: codeController1, codeController2: codeController2, codeController3: codeController3, codeController4: codeController4, codeController5: codeController5, codeController6: codeController6),
+              VerifyCodeBody(
+                  formKey: formKey,
+                  codeController1: codeController1,
+                  codeController2: codeController2,
+                  codeController3: codeController3,
+                  codeController4: codeController4,
+                  codeController5: codeController5,
+                  codeController6: codeController6),
               const SizedBox(height: 15),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -119,5 +129,3 @@ class OtpScreen extends StatelessWidget {
     );
   }
 }
-
-

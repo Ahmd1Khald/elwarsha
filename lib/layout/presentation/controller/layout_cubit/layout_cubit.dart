@@ -1,76 +1,38 @@
 import 'package:bloc/bloc.dart';
 import 'package:elwarsha/authentication/domain/usecase/send_verfy_code_usecase.dart';
 import 'package:elwarsha/core/constant/app_variable_constants.dart';
+import 'package:elwarsha/layout/presentation/screens/more_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../screens/categories screen.dart';
+import '../../screens/home_screen.dart';
+import '../../screens/orders screen.dart';
+import 'layout_state.dart';
 
-import '../../../domain/usecase/confirm_verify_code.dart';
-import '../../../domain/usecase/login_usecase.dart';
-import 'login_states.dart';
+class LayoutCubit extends Cubit<LayoutStates> {
 
-class LoginCubit extends Cubit<LoginStates> {
-  final LoginUseCase loginUseCase;
-  final SendVerifyCodeUseCase sendVerifyCodeUseCase;
-  final ConfirmVerifyCodeUseCase confirmVerifyCodeUseCase;
+  LayoutCubit() : super(LayoutInitialState());
 
-  LoginCubit(this.loginUseCase, this.sendVerifyCodeUseCase,
-      this.confirmVerifyCodeUseCase)
-      : super(LoginInitialState());
+  static LayoutCubit get(context) => BlocProvider.of(context);
 
-  static LoginCubit get(context) => BlocProvider.of(context);
+  int currentIndex = 0;
+  List<Widget> screens = [
+    const HomeScreen(),
+    const CategoriesScreen(),
+    const OrdersScreen(),
+    const MoreScreen(),
+  ];
 
-  bool obscureText = true;
-  IconData visibility = Icons.visibility_off_outlined;
-
-  /*void changeVisibility() {
-    obscureText = !obscureText;
-    visibility =
-        obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined;
-    obscureText
-        ? emit(LoginDisActiveVisibilityState())
-        : emit(LoginActiveVisibilityState());
-  }*/
-
-  void login({
-    required String phone,
-  }) async {
-    emit(LoginLoadingState());
-    LoginParameter parameter = LoginParameter(
-      phone: phone,
-    );
-    var result = await loginUseCase(parameter);
-    result.fold(
-      (l) => emit(LoginErrorState(errorMessage: l.message)),
-      (r) => emit(LoginSuccessState(userData: r)),
-    );
+  void changeBottomIndex({required int index}) {
+    currentIndex = index;
+    emit(LayoutChangeBottomNavBar());
   }
 
-  void sendVerificationCode({
-    required String phoneNumber,
-  }) async {
-    emit(SendVerifyCodeLoadingState());
-    SendPhoneNumberParameter parameter =
-        SendPhoneNumberParameter(phoneNumber: phoneNumber);
-    var result = await sendVerifyCodeUseCase(parameter);
-    result.fold(
-      (l) => emit(SendVerifyCodeErrorState(errorMessage: l.message)),
-      (r) => emit(SendVerifyCodeSuccessState()),
-    );
+  int activeIndex = 0;
+
+  void changeActiveIndex({required int index}) {
+    activeIndex = index;
+    emit(AppChangeCarousalActiveIndexState());
   }
 
-  void confirmVerificationCode({
-    required String smsCode,
-  }) async {
-    emit(ConfirmVerifyCodeLoadingState());
-    ConfirmCodeParameter parameter = ConfirmCodeParameter(
-      verificationId: AppVariableConstants.saveVerificationId!,
-      smsCode: smsCode,
-    );
-
-    var result = await confirmVerifyCodeUseCase(parameter);
-    result.fold(
-      (l) => emit(ConfirmVerifyCodeErrorState(errorMessage: l.message)),
-      (r) => emit(ConfirmVerifyCodeSuccessState(credential: r)),
-    );
-  }
 }

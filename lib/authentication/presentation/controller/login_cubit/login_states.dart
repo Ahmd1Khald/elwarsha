@@ -2,10 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../domain/entities/auth_entity.dart';
-abstract class LoginStates extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+abstract class LoginStates {}
 
 class LoginInitialState extends LoginStates {}
 

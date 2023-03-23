@@ -1,5 +1,10 @@
 import 'package:elwarsha/authentication/presentation/components/otp_components/verify_code_form.dart';
+import 'package:elwarsha/authentication/presentation/controller/login_cubit/login_cubit.dart';
+import 'package:elwarsha/authentication/presentation/controller/login_cubit/login_states.dart';
+import 'package:elwarsha/core/constant/app_string_constants.dart';
+import 'package:elwarsha/core/services/cache_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constant/app_color_constant.dart';
 import '../../../../core/constant/app_path_constant.dart';
@@ -85,13 +90,20 @@ class VerifyCodeBody extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.3,
             ),
             child: CustomButton(
-              onPressed: () {},
-              color: AppColorConstant.backgroundColor,
-              child: Text(
-                'Resend',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-            ),
+                onPressed: () {},
+                color: AppColorConstant.backgroundColor!,
+                child: TextButton(
+                  onPressed: () {
+                    /*cubit.sendVerificationCode(
+                        phoneNumber: CacheHelper.getDate(
+                            key: AppStringConstant
+                                .cacheHelperSaveUserNumber));*/
+                  },
+                  child: Text(
+                    'Resend',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                )),
           )
         ],
       ),

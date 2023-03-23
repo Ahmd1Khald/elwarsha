@@ -24,6 +24,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           children: [

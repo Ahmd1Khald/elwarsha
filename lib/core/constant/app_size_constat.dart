@@ -5,4 +5,6 @@ class AppSizeConstant{
   static const double titleMediumSize = 25;
   static const double bodySmallSize = 14;
   static const double labelMedSize = 25;
+  static const double bodyMediumSize = 18;
+
 }

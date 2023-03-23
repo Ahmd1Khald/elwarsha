@@ -1,6 +1,9 @@
 import 'package:elwarsha/authentication/presentation/controller/login_cubit/login_cubit.dart';
 import 'package:elwarsha/core/constant/app_path_constant.dart';
 import 'package:elwarsha/core/global/widgets/custom_button.dart';
+import 'package:elwarsha/core/global/widgets/navigate_to.dart';
+import 'package:elwarsha/layout/presentation/screens/home_screen.dart';
+import 'package:elwarsha/layout/presentation/screens/layout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constant/app_color_constant.dart';
@@ -11,6 +14,7 @@ import '../../../core/services/service_locator.dart';
 import '../controller/login_cubit/login_states.dart';
 import 'otp_code_screen.dart';
 
+// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
@@ -64,11 +68,14 @@ class LoginScreen extends StatelessWidget {
             );
           } else if (state is ConfirmVerifyCodeErrorState) {
             showFlutterToast(
-                message: state.errorMessage, state: ToastState.error);
+              message: state.errorMessage,
+              state: ToastState.error,
+            );
             Navigator.of(context).pop();
           } else if (state is ConfirmVerifyCodeSuccessState) {
             ///Todo:  Login to database using phone number
-
+            ///TODO: Don't forgot to store Token
+            navigateTo(context: context, destination: const LayoutScreen());
             // the credential user data
             print(state.credential);
             showFlutterToast(
@@ -78,18 +85,20 @@ class LoginScreen extends StatelessWidget {
         builder: (context, state) {
           LoginCubit cubit = LoginCubit.get(context);
           return Scaffold(
+            backgroundColor: Colors.black,
             body: SingleChildScrollView(
               child: SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 10),
                     Text(
                       AppStringConstant.appTitle,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      'Be safe with us',
+                      'Be safe with me',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Form(
@@ -109,7 +118,8 @@ class LoginScreen extends StatelessWidget {
                             horizontal: 30,
                           ),
                           child: TextFormField(
-                            cursorColor: Theme.of(context).textTheme.bodyLarge!.color,
+                            cursorColor:
+                                Theme.of(context).textTheme.bodyLarge!.color,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
@@ -128,19 +138,19 @@ class LoginScreen extends StatelessWidget {
                               ),
                               enabled: true,
                               enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                             controller: phoneController,
-                              keyboardType: TextInputType.phone,
-                              validator: (String? value) {
-                                if (value!.length < 11) {
-                                  return 'Invalid phone number';
-                                }
-                                return null;
-                              },
+                            keyboardType: TextInputType.phone,
+                            validator: (String? value) {
+                              if (value!.length < 11) {
+                                return 'Invalid phone number';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ),
@@ -161,35 +171,6 @@ class LoginScreen extends StatelessWidget {
                             //print(num);
                             ///ToDo : Verify Phone number
                             cubit.sendVerificationCode(phoneNumber: num);
-                            /* await AppVariableConstants.auth.verifyPhoneNumber(
-                            phoneNumber: num,
-                            verificationCompleted:
-                                (PhoneAuthCredential credential) async {
-                              await AppVariableConstants.auth
-                                  .signInWithCredential(credential);
-                            },
-                            verificationFailed: (FirebaseAuthException e) {
-                              if (e.code == 'invalid-phone-number') {
-                                showFlutterToast(
-                                    message: 'Invalid phone number',
-                                    state: ToastState.error);
-                              } else {
-                                showFlutterToast(
-                                    message: 'There is no signal try again later',
-                                    state: ToastState.error);
-                              }
-                              showFlutterToast(
-                                  message: 'Try again later',
-                                  state: ToastState.error);
-                            },
-                            codeSent: (String verificationId, int? resendToken) {
-                              navigateTo(context, OtpScreen());
-                            },
-                            codeAutoRetrievalTimeout: (String verificationId) {
-                              AppVariableConstants.saveVerificationId =
-                                  verificationId;
-                            },
-                          );*/
                           }
                         },
                         color: AppColorConstant.primaryColor,
@@ -197,62 +178,6 @@ class LoginScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.labelMedium),
                       ),
                     )
-                    /*Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(0),
-                          border: Border.all(color: Colors.black)),
-                      child: MaterialButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              String num = '+20${phoneController.text}';
-                              CacheHelper.saveData(
-                                  key:
-                                      AppStringConstant.cacheHelperSaveUserNumber,
-                                  value: num);
-                              //print(num);
-                              ///ToDo : Verify Phone number
-                              cubit.sendVerificationCode(phoneNumber: num);
-                              */ /* await AppVariableConstants.auth.verifyPhoneNumber(
-                          phoneNumber: num,
-                          verificationCompleted:
-                              (PhoneAuthCredential credential) async {
-                            await AppVariableConstants.auth
-                                .signInWithCredential(credential);
-                          },
-                          verificationFailed: (FirebaseAuthException e) {
-                            if (e.code == 'invalid-phone-number') {
-                              showFlutterToast(
-                                  message: 'Invalid phone number',
-                                  state: ToastState.error);
-                            } else {
-                              showFlutterToast(
-                                  message: 'There is no signal try again later',
-                                  state: ToastState.error);
-                            }
-                            showFlutterToast(
-                                message: 'Try again later',
-                                state: ToastState.error);
-                          },
-                          codeSent: (String verificationId, int? resendToken) {
-                            navigateTo(context, OtpScreen());
-                          },
-                          codeAutoRetrievalTimeout: (String verificationId) {
-                            AppVariableConstants.saveVerificationId =
-                                verificationId;
-                          },
-                        );*/ /*
-                            }
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22),
-                          )),
-                    ),*/
                   ],
                 ),
               ),
