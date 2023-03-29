@@ -1,13 +1,13 @@
 import '../../domain/entities/user_data.dart';
 
-class UserDataModel extends UserData {
+class UserDataModel extends UserDataEntity {
   const UserDataModel({
     required super.name,
     required super.id,
     required super.phone,
     required super.avatar,
     required super.bio,
-    super.rolesName,
+    //super.rolesName,
     required super.status,
     required super.createdAt,
     required super.updatedAt,
@@ -19,7 +19,7 @@ class UserDataModel extends UserData {
         phone: json['phone'],
         avatar: json['avatar'],
         bio: json['bio'],
-        rolesName: List<String>.from(json['roles_name'] ?? []),
+        //rolesName: List<String>.from(json['roles_name'] ?? []),
         status: json['Status'],
         createdAt: json['created_at'],
         updatedAt: json['updated_at'],

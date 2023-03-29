@@ -1,23 +1,23 @@
 import 'package:equatable/equatable.dart';
 
-class UserData extends Equatable {
+class UserDataEntity extends Equatable {
   final String name;
-  final String id;
+  final int id;
   final String phone;
   final String? avatar;
   final String? bio;
-  final List<String>? rolesName;
+  //final List<String>? rolesName;
   final String? status;
   final String updatedAt;
   final String createdAt;
 
-  const UserData({
+  const UserDataEntity({
     required this.name,
     required this.id,
     required this.phone,
     required this.avatar,
     required this.bio,
-    this.rolesName,
+    //this.rolesName,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
@@ -29,7 +29,7 @@ class UserData extends Equatable {
         phone,
         avatar,
         bio,
-        rolesName,
+        //rolesName,
         status,
         updatedAt,
         createdAt,

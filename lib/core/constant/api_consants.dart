@@ -5,5 +5,6 @@ class ApiConstants {
   static const String englishLanguage = 'en';
   static const String contentType = 'application/json';
   static const String loginEndPoint = 'login';
-  static const String registerEndPoint = 'register';
+  static const String slideEndPoint = 'slide';
+  static const String productsEndPoint = 'products';
 }

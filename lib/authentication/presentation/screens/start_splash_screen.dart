@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Timer(
       const Duration(seconds: 3),
-          () => AppRouter.router.pushReplacement(AppRouter.kOnBoardingScreen)
+          () =>AppRouter.router.pushReplacement(AppRouter.kOnBoardingScreen)
     );
     super.initState();
   }

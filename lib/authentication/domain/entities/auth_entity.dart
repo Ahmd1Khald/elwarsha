@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'user_data.dart';
 
 class AuthEntity extends Equatable {
-  //final bool status;
+  //final int status;
   final String accessToken;
-  final UserData data;
+  final UserDataEntity data;
 
   const AuthEntity({
     //required this.status,
