@@ -2,6 +2,7 @@ import 'package:elwarsha/authentication/presentation/controller/login_cubit/logi
 import 'package:elwarsha/core/constant/app_path_constant.dart';
 import 'package:elwarsha/core/global/widgets/custom_button.dart';
 import 'package:elwarsha/core/global/widgets/navigate_to.dart';
+import 'package:elwarsha/layout/presentation/controller/layout_cubit/layout_cubit.dart';
 import 'package:elwarsha/layout/presentation/screens/home_screen.dart';
 import 'package:elwarsha/layout/presentation/screens/layout_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class LoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
           LoginCubit cubit = LoginCubit.get(context);
+
           if (state is SendVerifyCodeLoadingState) {
             showDialog(
               barrierDismissible: false,
@@ -38,15 +40,18 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is SendVerifyCodeErrorState) {
+          }
+          else if (state is SendVerifyCodeErrorState) {
             showFlutterToast(
                 message: state.errorMessage, state: ToastState.error);
             Navigator.of(context).pop();
-          } else if (state is SendVerifyCodeSuccessState) {
+          }
+          else if (state is SendVerifyCodeSuccessState) {
             showFlutterToast(
                 message: 'Code was Send as SMS', state: ToastState.success);
             //Navigator.of(context).pop();
             //print("KErollososoosososoososo ${state.verificationId}");
+
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => OtpScreen(
@@ -66,20 +71,55 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is ConfirmVerifyCodeErrorState) {
+          }
+          else if (state is ConfirmVerifyCodeErrorState) {
             showFlutterToast(
               message: state.errorMessage,
               state: ToastState.error,
             );
             Navigator.of(context).pop();
-          } else if (state is ConfirmVerifyCodeSuccessState) {
-            ///Todo:  Login to database using phone number
-            ///TODO: Don't forgot to store Token
-            navigateTo(context: context, destination: const LayoutScreen());
-            // the credential user data
-            print(state.credential);
+          }
+          else if (state is ConfirmVerifyCodeSuccessState) {
+
+            LoginCubit.get(context).login(phone: phoneController.text);
+          }
+
+          if (state is LoginSuccessState) {
+            Navigator.of(context).pop();
+            //Login To database and saving the token
+            CacheHelper.saveData(
+                    key: "token", value: state.userData.accessToken).then((value){
+                  print("The Access Token is saved:  ${value}");
+                  print("The Access Token is  ${state.userData.accessToken}");
+                  print("The name is  ${state.userData.data.name}");
+                  print("The phone is  ${state.userData.data.phone}");
+                  navigateTo(context: context, destination:  LayoutScreen());
+                  showFlutterToast(
+                      message: 'Login Successfully', state: ToastState.success);
+            }).catchError((error) {
+              showFlutterToast(
+                  message: 'Error While Saving Token: ${error.toString()}', state: ToastState.error);
+              //navigateTo(context: context, destination: LoginScreen());
+            });
+          }
+          else if(state is LoginLoadingState){
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            );
+          }
+          else if(state is LoginErrorState){
+            Navigator.of(context).pop();
             showFlutterToast(
-                message: 'Login Successfully', state: ToastState.success);
+              message: state.errorMessage,
+              state: ToastState.error,
+            );
+
           }
         },
         builder: (context, state) {
@@ -98,7 +138,7 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      'Be safe with me',
+                      'Be safe with Us',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Form(
@@ -170,7 +210,9 @@ class LoginScreen extends StatelessWidget {
                                 value: num);
                             //print(num);
                             ///ToDo : Verify Phone number
-                            cubit.sendVerificationCode(phoneNumber: num);
+                            //cubit.sendVerificationCode(phoneNumber: num);
+                            LoginCubit.get(context).login(phone: phoneController.text);
+
                           }
                         },
                         color: AppColorConstant.primaryColor,

@@ -1,47 +1,66 @@
 import 'package:elwarsha/core/constant/app_color_constant.dart';
+import 'package:elwarsha/core/services/cache_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../core/services/service_locator.dart';
 import '../components/styles/text_styles.dart';
 import '../controller/layout_cubit/layout_cubit.dart';
 import '../controller/layout_cubit/layout_state.dart';
 
 class LayoutScreen extends StatelessWidget {
-  const LayoutScreen({Key? key}) : super(key: key);
+
+
+  LayoutScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String token = CacheHelper.getDate(key: 'token');
+    print(token);
     return BlocProvider(
-      create: (context) => LayoutCubit(),
+      ///TODO: don't forget to get user data
+      create: (context) => sl<LayoutCubit>()..getProducts(token: token)..getSliders(token: token),
       child: BlocConsumer<LayoutCubit, LayoutStates>(
-        listener: (context,state){},
-        builder: (context,state){
+        listener: (context, state) {},
+        builder: (context, state) {
           return Scaffold(
             bottomNavigationBar: BottomNavigationBar(
               selectedLabelStyle: TextStyles.buttonNavBarTextStyle,
-              items:  [
+              items: [
                 BottomNavigationBarItem(
                   icon: const Icon(CupertinoIcons.home),
-                  activeIcon: Icon(CupertinoIcons.home,color: AppColorConstant.buttonNavBarIconColor,),
+                  activeIcon: Icon(
+                    CupertinoIcons.home,
+                    color: AppColorConstant.buttonNavBarIconColor,
+                  ),
                   label: 'Home',
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.grid_view_rounded),
                   label: 'Categories',
-                  activeIcon: Icon(Icons.grid_view_rounded,color: AppColorConstant.buttonNavBarIconColor,),
+                  activeIcon: Icon(
+                    Icons.grid_view_rounded,
+                    color: AppColorConstant.buttonNavBarIconColor,
+                  ),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 BottomNavigationBarItem(
-                  activeIcon: Icon(Icons.miscellaneous_services_outlined,color: AppColorConstant.buttonNavBarIconColor,),
+                  activeIcon: Icon(
+                    Icons.miscellaneous_services_outlined,
+                    color: AppColorConstant.buttonNavBarIconColor,
+                  ),
                   icon: const Icon(Icons.miscellaneous_services_outlined),
                   label: 'Orders',
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 BottomNavigationBarItem(
-                  activeIcon: Icon(FontAwesomeIcons.bars,color: AppColorConstant.buttonNavBarIconColor,),
+                  activeIcon: Icon(
+                    FontAwesomeIcons.bars,
+                    color: AppColorConstant.buttonNavBarIconColor,
+                  ),
                   icon: const Icon(FontAwesomeIcons.bars),
                   label: 'More',
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -53,7 +72,8 @@ class LayoutScreen extends StatelessWidget {
                 LayoutCubit.get(context).changeBottomIndex(index: index);
               },
             ),
-            body: LayoutCubit.get(context).screens[LayoutCubit.get(context).currentIndex],
+            body: LayoutCubit.get(context)
+                .screens[LayoutCubit.get(context).currentIndex],
           );
         },
       ),

@@ -16,7 +16,7 @@ abstract class AppRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => LayoutScreen(),//const SplashScreen(),
       ),
       GoRoute(
         path: kOnBoardingScreen,
