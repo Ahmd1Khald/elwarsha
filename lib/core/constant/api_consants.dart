@@ -7,4 +7,5 @@ class ApiConstants {
   static const String loginEndPoint = 'login';
   static const String slideEndPoint = 'slide';
   static const String productsEndPoint = 'products';
+  static const String profileEndPoint = 'profile';
 }

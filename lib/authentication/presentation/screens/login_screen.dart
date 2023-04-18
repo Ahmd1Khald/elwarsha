@@ -80,7 +80,6 @@ class LoginScreen extends StatelessWidget {
             Navigator.of(context).pop();
           }
           else if (state is ConfirmVerifyCodeSuccessState) {
-
             LoginCubit.get(context).login(phone: phoneController.text);
           }
 
@@ -209,9 +208,8 @@ class LoginScreen extends StatelessWidget {
                                     AppStringConstant.cacheHelperSaveUserNumber,
                                 value: num);
                             //print(num);
-                            ///ToDo : Verify Phone number
-                            //cubit.sendVerificationCode(phoneNumber: num);
-                            LoginCubit.get(context).login(phone: phoneController.text);
+
+                            cubit.sendVerificationCode(phoneNumber: num);
 
                           }
                         },

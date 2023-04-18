@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class MoreHeader extends StatelessWidget {
   final String accountName;
   final String accountPhoneNumber;
+  //final String accountProfileImage;
   const MoreHeader({
-    super.key, required this.accountName, required this.accountPhoneNumber,
+    super.key, required this.accountName, required this.accountPhoneNumber, //required this.accountProfileImage,
   });
 
   @override
@@ -66,10 +67,11 @@ class MoreHeader extends StatelessWidget {
           Positioned(
             left: MediaQuery.of(context).size.width * 0.37,
             top: MediaQuery.of(context).size.height * 0.17,
-            child: const CircleAvatar(
+            child:  CircleAvatar(
               radius: 35,
-              backgroundImage:
-              AssetImage('assets/images/banner photo.jpeg'),
+              backgroundImage: AssetImage('assets/images/banner photo.jpeg'),
+              //backgroundImage: NetworkImage(accountProfileImage),
+
             ),
           ),
         ],

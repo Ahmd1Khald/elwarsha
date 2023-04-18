@@ -1,5 +1,7 @@
 import 'package:elwarsha/layout/domain/entities/products_entities/products_entity.dart';
+import 'package:elwarsha/layout/domain/entities/profile_entities/profile_entity.dart';
 import 'package:elwarsha/layout/domain/entities/slider_entities/slider_entity.dart';
+import 'package:elwarsha/layout/domain/usecase/get_profile_data_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class LayoutStates {}
@@ -36,4 +38,18 @@ class GetProductsSuccessState extends LayoutStates {
   final ProductEntity products;
 
   GetProductsSuccessState({required this.products});
+}
+
+class GetProfileLoadingState extends LayoutStates {}
+
+class GetProfileErrorState extends LayoutStates {
+  final String errorMessage;
+
+  GetProfileErrorState({required this.errorMessage});
+}
+
+class GetProfileSuccessState extends LayoutStates {
+  final ProfileEntity userData;
+
+  GetProfileSuccessState({required this.userData});
 }

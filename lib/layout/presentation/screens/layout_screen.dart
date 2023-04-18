@@ -11,8 +11,6 @@ import '../controller/layout_cubit/layout_cubit.dart';
 import '../controller/layout_cubit/layout_state.dart';
 
 class LayoutScreen extends StatelessWidget {
-
-
   LayoutScreen({Key? key}) : super(key: key);
 
   @override
@@ -21,9 +19,17 @@ class LayoutScreen extends StatelessWidget {
     print(token);
     return BlocProvider(
       ///TODO: don't forget to get user data
-      create: (context) => sl<LayoutCubit>()..getProducts(token: token)..getSliders(token: token),
+      create: (context) => sl<LayoutCubit>()
+        ..getProducts(token: token)
+        ..getSliders(token: token)
+        ..getProfileData(token: token),
       child: BlocConsumer<LayoutCubit, LayoutStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          // if(state is GetProfileSuccessState){
+          //   print("Get Profile data....!");
+          //   print(state.userData.data.phone);
+          // }
+        },
         builder: (context, state) {
           return Scaffold(
             bottomNavigationBar: BottomNavigationBar(

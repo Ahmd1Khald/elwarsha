@@ -1,5 +1,6 @@
 import 'package:elwarsha/core/constant/app_color_constant.dart';
 import 'package:elwarsha/core/global/widgets/navigate_to.dart';
+import 'package:elwarsha/layout/domain/entities/profile_entities/profile_entity.dart';
 import 'package:elwarsha/layout/presentation/screens/notification_screens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,9 @@ import 'package:flutter/material.dart';
 import '../../screens/search_screen.dart';
 
 class LayoutHeader extends StatelessWidget {
+  final ProfileEntity profileData;
   const LayoutHeader({
-    super.key,
+    super.key, required this.profileData,
   });
 
   @override
@@ -48,7 +50,7 @@ class LayoutHeader extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              "User",
+                              profileData.data.name,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
@@ -58,7 +60,7 @@ class LayoutHeader extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          "01061748098",
+                          profileData.data.phone,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
