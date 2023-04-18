@@ -12,6 +12,7 @@ import '../../../core/global/widgets/navigate_to.dart';
 import '../../../core/global/widgets/show_flutter_toast.dart';
 import '../../../winch/presentation/screens/winch_service_screen.dart';
 import '../../domain/entities/products_entities/products_entity.dart';
+import '../../domain/entities/profile_entities/profile_entity.dart';
 import '../components/global_components/layout_header.dart';
 import '../components/home_components/banner_model.dart';
 import '../components/home_components/dummy_data.dart';
@@ -52,9 +53,8 @@ class HomeScreen extends StatelessWidget {
           //Navigator.of(context).pop();
         }
 
-
         if (state is GetProductsLoadingState) {
-          ///TODO: Take care from change state
+
           showDialog(
             barrierDismissible: false,
             context: context,
@@ -77,14 +77,17 @@ class HomeScreen extends StatelessWidget {
 
           //Navigator.of(context).pop();
         }
+
       },
       builder: (context, state) {
         LayoutCubit cubit = LayoutCubit.get(context);
-        if(products.status != -1 && slider.status != -1){
+        if (products.status != -1 &&
+            slider.status != -1 &&
+            cubit.currentUserData != null) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const LayoutHeader(),
+              LayoutHeader(profileData: cubit.currentUserData!),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .06,
               ),
@@ -101,7 +104,6 @@ class HomeScreen extends StatelessWidget {
                     enlargeCenterPage: true),
                 itemCount: slider.data.length,
 
-                ///TODO: Adding The List From API
                 itemBuilder: (BuildContext context, int index, int realIndex) {
                   return buildCarousal(slider.data[index], index);
                 },
@@ -145,10 +147,13 @@ class HomeScreen extends StatelessWidget {
               )
             ],
           );
-        }else{
-          return Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor,),);
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
+          );
         }
-
       },
     );
   }
@@ -226,7 +231,9 @@ Widget buildCarousal(SliderDataEntity model, int index) => Container(
     );
 
 Widget buildOnlineShop(
-        {required context, required List<ProductData> product, required int index}) =>
+        {required context,
+        required List<ProductData> product,
+        required int index}) =>
     Padding(
       padding: const EdgeInsets.all(10.0),
       child: InkWell(
