@@ -33,7 +33,7 @@ class VerifyCodeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.65,
+      height: MediaQuery.of(context).size.height * 0.70,
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(

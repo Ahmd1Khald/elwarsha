@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:elwarsha/authentication/domain/usecase/send_verfy_code_usecase.dart';
 import 'package:elwarsha/core/constant/app_variable_constants.dart';
 import 'package:elwarsha/layout/domain/entities/profile_entities/profile_entity.dart';
 import 'package:elwarsha/layout/domain/usecase/get_products_usecase.dart';
 import 'package:elwarsha/layout/presentation/screens/more_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../authentication/domain/entities/auth_entity.dart';
+import '../../../../core/services/cache_helper.dart';
 import '../../../domain/usecase/get_profile_data_usecase.dart';
 import '../../../domain/usecase/get_slides_usecase.dart';
 import '../../screens/categories screen.dart';
@@ -76,5 +81,39 @@ class LayoutCubit extends Cubit<LayoutStates> {
         emit(GetProfileSuccessState(userData: r));
       },
     );
+  }
+
+  File? image;
+  final imagePicker = ImagePicker();
+  int numImage = 0;
+
+  Future setImage() async {
+    image=null;
+    var pickerImage = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickerImage != null) {
+      emit(LoadingUploadUserPhotoState());
+      image = File(pickerImage.path);
+      uploadImage().then((value) {
+        emit(SuccessUploadUserPhotoState());
+        image = null;
+        numImage++;
+      }).catchError((error) {
+        emit(ErrorUploadUserPhotoState());
+        print('error while upload photo $error');
+      });
+    } else {}
+  }
+
+  Future uploadImage() async {
+
+    String path = 'Images/$numImage/elwarsha-app.appspot.com/';
+    final ref = FirebaseStorage.instance.ref().child(path);
+    UploadTask? uploadTask;
+    uploadTask = ref.putFile(image!);
+    final snapshot = await uploadTask.whenComplete(() {});
+
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    CacheHelper.saveData(key: 'photoURL', value: urlDownload);
+    print('Image link:$urlDownload');
   }
 }
