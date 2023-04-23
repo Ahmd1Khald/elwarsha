@@ -53,3 +53,10 @@ class GetProfileSuccessState extends LayoutStates {
 
   GetProfileSuccessState({required this.userData});
 }
+
+class LoadingUploadUserPhotoState extends LayoutStates {}
+
+class SuccessUploadUserPhotoState extends LayoutStates {}
+
+class ErrorUploadUserPhotoState extends LayoutStates {}
+
