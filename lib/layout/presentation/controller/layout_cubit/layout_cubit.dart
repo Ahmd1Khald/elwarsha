@@ -35,7 +35,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
     HomeScreen(),
     const CategoriesScreen(),
     const OrdersScreen(),
-    const MoreScreen(),
+    MoreScreen(),
   ];
 
   void changeBottomIndex({required int index}) {
@@ -84,6 +84,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
   }
 
   File? image;
+  String? imagePath;
   final imagePicker = ImagePicker();
   int numImage = 0;
 
@@ -94,7 +95,8 @@ class LayoutCubit extends Cubit<LayoutStates> {
       emit(LoadingUploadUserPhotoState());
       image = File(pickerImage.path);
       uploadImage().then((value) {
-        emit(SuccessUploadUserPhotoState());
+        imagePath = value;
+        emit(SuccessUploadUserPhotoState(image: imagePath));
         image = null;
         numImage++;
       }).catchError((error) {
@@ -104,7 +106,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
     } else {}
   }
 
-  Future uploadImage() async {
+  Future<String> uploadImage() async {
 
     String path = 'Images/$numImage/elwarsha-app.appspot.com/';
     final ref = FirebaseStorage.instance.ref().child(path);
@@ -113,7 +115,8 @@ class LayoutCubit extends Cubit<LayoutStates> {
     final snapshot = await uploadTask.whenComplete(() {});
 
     final urlDownload = await snapshot.ref.getDownloadURL();
-    CacheHelper.saveData(key: 'photoURL', value: urlDownload);
-    print('Image link:$urlDownload');
+    return urlDownload;
+    //CacheHelper.saveData(key: 'photoURL', value: urlDownload);
+    //print('Image link:$urlDownload');
   }
 }

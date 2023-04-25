@@ -11,15 +11,25 @@ import '../components/more_components/more_header.dart';
 import '../components/more_components/more_item.dart';
 
 class MoreScreen extends StatelessWidget {
-  const MoreScreen({Key? key}) : super(key: key);
+  String? image;
+
+  MoreScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LayoutCubit, LayoutStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SuccessUploadUserPhotoState) {
+          navigateToAndReplacement(
+              context: context,
+              destination: UpdateProfileScreen(cubit: LayoutCubit.get(context)));
+        }
+      },
       builder: (context, state) {
         LayoutCubit cubit = LayoutCubit.get(context);
         if (cubit.currentUserData != null) {
+          // print(image);
+          // print("Ya rabbbbbbbbbbbbbbbbbbbbbbbb");
           return SafeArea(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -55,9 +65,26 @@ class MoreScreen extends StatelessWidget {
                     BuildMoreItem(
                       title: "Manage Account",
                       onTap: () {
+                        print("returned image : ${image}");
                         navigateTo(
                             context: context,
-                            destination: UpdateProfileScreen());
+                            destination: UpdateProfileScreen(
+                                cubit: LayoutCubit.get(context)));
+                        // if (state is SuccessUploadUserPhotoState) {
+                        //   print(state.image);
+                        //   print("Ya rabbbbbbbbbbbbbbbbbbbbbbbb");
+                        //   navigateTo(
+                        //       context: context,
+                        //       destination: UpdateProfileScreen(
+                        //           image: state.image,
+                        //           cubit: LayoutCubit.get(context)));
+                        // } else {
+                        //   navigateTo(
+                        //       context: context,
+                        //       destination: UpdateProfileScreen(
+                        //           image: null,
+                        //           cubit: LayoutCubit.get(context)));
+                        // }
                       },
                     ),
 

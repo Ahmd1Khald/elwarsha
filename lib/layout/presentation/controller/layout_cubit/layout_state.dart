@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:elwarsha/layout/domain/entities/products_entities/products_entity.dart';
 import 'package:elwarsha/layout/domain/entities/profile_entities/profile_entity.dart';
 import 'package:elwarsha/layout/domain/entities/slider_entities/slider_entity.dart';
 import 'package:elwarsha/layout/domain/usecase/get_profile_data_usecase.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class LayoutStates {}
 
@@ -56,7 +59,10 @@ class GetProfileSuccessState extends LayoutStates {
 
 class LoadingUploadUserPhotoState extends LayoutStates {}
 
-class SuccessUploadUserPhotoState extends LayoutStates {}
+class SuccessUploadUserPhotoState extends LayoutStates {
+  final String? image;
+  SuccessUploadUserPhotoState({required this.image});
+}
 
 class ErrorUploadUserPhotoState extends LayoutStates {}
 
