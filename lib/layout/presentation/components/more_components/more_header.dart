@@ -10,11 +10,11 @@ class MoreHeader extends StatelessWidget {
   final String accountPhoneNumber;
 
   //final String accountProfileImage;
-  MoreHeader(
-      {super.key,
-      required this.accountName,
-      required this.accountPhoneNumber, //required this.accountProfileImage,
-      });
+  MoreHeader({
+    super.key,
+    required this.accountName,
+    required this.accountPhoneNumber, //required this.accountProfileImage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,35 +78,21 @@ class MoreHeader extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.bottomRight,
                   children: [
-                    cubit.image == null
-                        ? const CircleAvatar(
+                    state is SuccessUploadUserPhotoState
+                        ? CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.grey,
+                            // backgroundImage: FileImage(
+                            //   cubit.image!,
+                            // ),
+                            backgroundImage: NetworkImage(state.image!),
+                          )
+                        : const CircleAvatar(
                             radius: 35,
                             backgroundColor: Colors.grey,
                             backgroundImage:
                                 AssetImage('assets/images/banner photo.jpeg'),
-                          )
-                        : CircleAvatar(
-                            radius: 35,
-                            backgroundColor: Colors.grey,
-                            backgroundImage: FileImage(
-                              cubit.image!,
-                            ),
                           ),
-                    CircleAvatar(
-                      backgroundColor: Colors.white70,
-                      radius: 15,
-                      child: Center(
-                        child: IconButton(
-                          onPressed: () {
-                            cubit.setImage();
-                          },
-                          icon: const Icon(
-                            Icons.add_a_photo,
-                            size: 15,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
