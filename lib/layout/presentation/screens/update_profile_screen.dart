@@ -1,12 +1,13 @@
+import 'package:elwarsha/core/global/widgets/show_flutter_toast.dart';
+import 'package:elwarsha/layout/presentation/controller/layout_cubit/layout_cubit.dart';
 import 'package:flutter/material.dart';
-
 import '../../../core/constant/app_color_constant.dart';
-import '../../../core/constant/app_string_constants.dart';
+import '../../../core/global/widgets/navigate_to.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  UpdateProfileScreen({Key? key}) : super(key: key);
+  final LayoutCubit cubit;
+  UpdateProfileScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,43 +44,59 @@ class UpdateProfileScreen extends StatelessWidget {
                                     .textTheme
                                     .titleMedium!
                                     .copyWith(
-                                      fontSize: 20,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                                  fontSize: 20,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
                             const SizedBox(
                               height: 25,
                             ),
                             Text(
-                              "Kerollos Sameh",
+                              cubit.currentUserData!.data.name,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                      color: Theme.of(context).primaryColor),
+                                  color:
+                                  Theme.of(context).primaryColor),
                             ),
                             Text(
-                              "01282454642",
+                                cubit.currentUserData!.data.phone,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                      color: Colors.green,
-                                      fontSize: 20,
-                                      //color: AppColorConstant.titleMedColor,
-                                      fontWeight: FontWeight.w400),
+                                  color: Colors.green,
+                                  fontSize: 20,
+                                  //color: AppColorConstant.titleMedColor,
+                                  fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
                       ),
                       Positioned(
                         top: MediaQuery.of(context).size.height * 0.15,
-                        child: const CircleAvatar(
+                        child: cubit.imagePath == null
+                            ? const CircleAvatar(
                           radius: 50,
+                          backgroundColor: Colors.grey,
                           backgroundImage:
-                              AssetImage('assets/images/banner photo.jpeg'),
+                          AssetImage('assets/images/banner photo.jpeg'),
+                        )
+                           :
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.grey,
+                          // backgroundImage: FileImage(
+                          //   image,
+                          // ),
+                          backgroundImage: NetworkImage(cubit.imagePath!),
                         ),
+                        // child: CircleAvatar(
+                        //   radius: 50,
+                        //   backgroundImage: AssetImage('assets/images/banner photo.jpeg'),
+                        // ),
                       ),
                       Positioned(
                         top: MediaQuery.of(context).size.height * 0.23,
@@ -89,6 +106,7 @@ class UpdateProfileScreen extends StatelessWidget {
                           child: IconButton(
                               onPressed: () {
                                 print("Kerollos Sameh Foaud");
+                                cubit.setImage();
                               },
                               icon: const Icon(Icons.camera_alt_outlined)),
                         ),
@@ -103,18 +121,20 @@ class UpdateProfileScreen extends StatelessWidget {
                     children: [
                       TextFormField(
                         cursorColor:
-                            Theme.of(context).textTheme.bodyLarge!.color,
+                        Theme.of(context).textTheme.bodyLarge!.color,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
                             .copyWith(fontSize: 25),
                         decoration: InputDecoration(
                           hintText: "Update Your Name",
-                          hintStyle:
-                              Theme.of(context).textTheme.labelMedium!.copyWith(
-                                    color: AppColorConstant.primaryColor,
-                                    fontWeight: FontWeight.w300,
-                                  ),
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(
+                            color: AppColorConstant.primaryColor,
+                            fontWeight: FontWeight.w300,
+                          ),
                           focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: AppColorConstant.primaryColor,
@@ -141,17 +161,20 @@ class UpdateProfileScreen extends StatelessWidget {
                       ),
                       TextFormField(
                         cursorColor:
-                            Theme.of(context).textTheme.bodyLarge!.color,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize: 25,
-                            ),
+                        Theme.of(context).textTheme.bodyLarge!.color,
+                        style:
+                        Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 25,
+                        ),
                         decoration: InputDecoration(
                           hintText: "Update Your Phone",
-                          hintStyle:
-                              Theme.of(context).textTheme.labelMedium!.copyWith(
-                                    color: AppColorConstant.primaryColor,
-                                    fontWeight: FontWeight.w300,
-                                  ),
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(
+                            color: AppColorConstant.primaryColor,
+                            fontWeight: FontWeight.w300,
+                          ),
                           focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: AppColorConstant.primaryColor,
