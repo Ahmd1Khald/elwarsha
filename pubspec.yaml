@@ -55,6 +55,7 @@ dependencies:
   dio: ^5.0.0
   go_router:
   # map test
+  geolocator:
 
 
   # firebase
