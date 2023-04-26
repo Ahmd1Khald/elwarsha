@@ -22,7 +22,8 @@ class LayoutScreen extends StatelessWidget {
       create: (context) => sl<LayoutCubit>()
         ..getProducts(token: token)
         ..getSliders(token: token)
-        ..getProfileData(token: token),
+        ..getProfileData(token: token)
+        ..getUserCurrentLocation(),gi
       child: BlocConsumer<LayoutCubit, LayoutStates>(
         listener: (context, state) {
           // if(state is GetProfileSuccessState){
