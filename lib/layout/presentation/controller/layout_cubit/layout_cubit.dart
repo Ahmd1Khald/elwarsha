@@ -9,9 +9,11 @@ import 'package:elwarsha/layout/presentation/screens/more_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../authentication/domain/entities/auth_entity.dart';
 import '../../../../core/services/cache_helper.dart';
+import '../../../../core/services/location_helper.dart';
 import '../../../domain/usecase/get_profile_data_usecase.dart';
 import '../../../domain/usecase/get_slides_usecase.dart';
 import '../../screens/categories screen.dart';
@@ -69,7 +71,9 @@ class LayoutCubit extends Cubit<LayoutStates> {
       (r) => emit(GetProductsSuccessState(products: r)),
     );
   }
+
   ProfileEntity? currentUserData;
+
   void getProfileData({required String token}) async {
     emit(GetProfileLoadingState());
     ProfileParameter parameter = ProfileParameter(token: token);
@@ -89,7 +93,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
   int numImage = 0;
 
   Future setImage() async {
-    image=null;
+    image = null;
     var pickerImage = await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickerImage != null) {
       emit(LoadingUploadUserPhotoState());
@@ -106,8 +110,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
     } else {}
   }
 
-  Future<String> uploadImage() async {
-
+  Future uploadImage() async {
     String path = 'Images/$numImage/elwarsha-app.appspot.com/';
     final ref = FirebaseStorage.instance.ref().child(path);
     UploadTask? uploadTask;
@@ -118,5 +121,24 @@ class LayoutCubit extends Cubit<LayoutStates> {
     return urlDownload;
     //CacheHelper.saveData(key: 'photoURL', value: urlDownload);
     //print('Image link:$urlDownload');
+  }
+
+
+
+  late String lat;
+  late String long;
+  late Position? position;
+
+  Future<void> getUserCurrentLocation() async {
+    await LocationHelper.detectCurrentLocation();
+    position = await Geolocator.getLastKnownPosition().whenComplete(() {
+      lat = position!.latitude.toString();
+      long = position!.longitude.toString();
+      emit(SuccessGetUserCurrentLocationState(lat, long));
+      print('lat =>$lat , long =>$long');
+
+    }).catchError((error) {
+      emit(ErrorGetUserCurrentLocationState(error.toString()));
+    });
   }
 }
