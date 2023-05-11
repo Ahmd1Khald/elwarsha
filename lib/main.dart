@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:elwarsha/core/constant/app_router.dart';
 import 'package:elwarsha/core/global/theme/dark_theme.dart';
-import 'package:elwarsha/layout/presentation/screens/layout_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
