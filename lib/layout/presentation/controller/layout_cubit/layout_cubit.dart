@@ -20,6 +20,7 @@ import '../../screens/categories screen.dart';
 import '../../screens/home_screen.dart';
 import '../../screens/orders screen.dart';
 import 'layout_state.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LayoutCubit extends Cubit<LayoutStates> {
   final GetSlidesUserCase getSlides;
@@ -130,15 +131,47 @@ class LayoutCubit extends Cubit<LayoutStates> {
   late Position? position;
 
   Future<void> getUserCurrentLocation() async {
-    await LocationHelper.detectCurrentLocation();
-    position = await Geolocator.getLastKnownPosition().whenComplete(() {
+    try {
+      bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!isServiceEnabled) {
+        await Geolocator.requestPermission();
+      }
+
+       await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      position = await Geolocator.getLastKnownPosition();
       lat = position!.latitude.toString();
       long = position!.longitude.toString();
       emit(SuccessGetUserCurrentLocationState(lat, long));
       print('lat =>$lat , long =>$long');
-
-    }).catchError((error) {
+    } catch (error) {
+      print("Kerollos: ${error.toString()}");
       emit(ErrorGetUserCurrentLocationState(error.toString()));
-    });
+    }
   }
+ /* Future<void> getUserCurrentLocation() async {
+    try {
+      // Request location permission
+      PermissionStatus permissionStatus = await Permission.location.request();
+
+      // Check if permission is granted
+      if (permissionStatus.isGranted) {
+        // Location permission granted, proceed with getting the current location
+        await LocationHelper.detectCurrentLocation();
+        position = await Geolocator.getLastKnownPosition();
+        lat = position!.latitude.toString();
+        long = position!.longitude.toString();
+        emit(SuccessGetUserCurrentLocationState(lat, long));
+        print('lat => $lat, long => $long');
+      } else {
+        // Location permission not granted, handle accordingly
+        emit(ErrorGetUserCurrentLocationState('Location permission not granted.'));
+      }
+    } catch (error) {
+      print("Kerollos: ${error.toString()}");
+      emit(ErrorGetUserCurrentLocationState(error.toString()));
+    }
+  }*/
+
 }

@@ -1,16 +1,10 @@
 import 'package:elwarsha/core/global/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/constant/app_color_constant.dart';
-import '../../../core/constant/app_path_constant.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../core/constant/app_string_constants.dart';
-import '../../../core/constant/app_variable_constants.dart';
-import '../../../core/global/widgets/show_flutter_toast.dart';
 import '../components/otp_components/verify_code_body.dart';
-import '../components/otp_components/verify_code_form.dart';
 import '../controller/login_cubit/login_cubit.dart';
-import '../controller/login_cubit/login_states.dart';
 
 class OtpScreen extends StatelessWidget {
   final LoginCubit cubit;
@@ -26,7 +20,7 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -49,10 +43,10 @@ class OtpScreen extends StatelessWidget {
                   codeController4: codeController4,
                   codeController5: codeController5,
                   codeController6: codeController6),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 25.0,
+                  //vertical: 25.0.h,
                   horizontal: MediaQuery.of(context).size.width * 0.3,
                 ),
                 child: CustomButton(

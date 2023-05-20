@@ -1,14 +1,9 @@
 import 'package:elwarsha/authentication/presentation/components/otp_components/verify_code_form.dart';
-import 'package:elwarsha/authentication/presentation/controller/login_cubit/login_cubit.dart';
-import 'package:elwarsha/authentication/presentation/controller/login_cubit/login_states.dart';
-import 'package:elwarsha/core/constant/app_string_constants.dart';
-import 'package:elwarsha/core/services/cache_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constant/app_color_constant.dart';
 import '../../../../core/constant/app_path_constant.dart';
-import '../../../../core/global/widgets/custom_button.dart';
+import 'counter_down_widget.dart';
 
 class VerifyCodeBody extends StatelessWidget {
   const VerifyCodeBody({
@@ -48,8 +43,8 @@ class VerifyCodeBody extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.16,
           ),
           Container(
-            width: 100,
-            height: 100,
+            width: 90.w,
+            height: 90.h,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(AppPathConstant.lockIcon),
@@ -57,13 +52,13 @@ class VerifyCodeBody extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 15),
+          SizedBox(height: 15.h),
           Text(
             "Enter The code we sent",
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
-                .copyWith(fontSize: 25),
+                .copyWith(fontSize: 25.sp),
           ),
           Padding(
             padding: const EdgeInsets.all(18.0),
@@ -79,11 +74,8 @@ class VerifyCodeBody extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
-          Text(
-            '1:59',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          CountdownWidget(),
+          /*const Spacer(),
           Padding(
             padding: EdgeInsets.symmetric(
               vertical: 20.0,
@@ -94,17 +86,17 @@ class VerifyCodeBody extends StatelessWidget {
                 color: AppColorConstant.backgroundColor!,
                 child: TextButton(
                   onPressed: () {
-                    /*cubit.sendVerificationCode(
+                    */ /*cubit.sendVerificationCode(
                         phoneNumber: CacheHelper.getDate(
                             key: AppStringConstant
-                                .cacheHelperSaveUserNumber));*/
+                                .cacheHelperSaveUserNumber));*/ /*
                   },
                   child: Text(
                     'Resend',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                 )),
-          )
+          )*/
         ],
       ),
     );

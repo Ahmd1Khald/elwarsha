@@ -66,6 +66,7 @@ class SuccessUploadUserPhotoState extends LayoutStates {
 
 class ErrorUploadUserPhotoState extends LayoutStates {}
 
+class LoadingGetUserCurrentLocationState extends LayoutStates {}
 class SuccessGetUserCurrentLocationState extends LayoutStates {
   final String lat, long;
 

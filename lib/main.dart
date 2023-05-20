@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:elwarsha/authentication/presentation/screens/start_splash_screen.dart';
 import 'package:elwarsha/core/constant/app_router.dart';
 import 'package:elwarsha/core/global/theme/dark_theme.dart';
 import 'package:elwarsha/layout/presentation/screens/layout_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/constant/app_string_constants.dart';
 import 'core/services/bloc_observer.dart';
 import 'core/services/cache_helper.dart';
@@ -31,12 +33,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: AppRouter.router,
-
-      debugShowCheckedModeBanner: false,
-      theme: getDarkThemeData(),
-      title: AppStringConstant.appTitle,
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder:(context,child)=> MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: getDarkThemeData(),
+        title: AppStringConstant.appTitle,
+        home: SplashScreen(),
+      ),
     );
   }
 }

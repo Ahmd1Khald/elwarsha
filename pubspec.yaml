@@ -53,6 +53,8 @@ dependencies:
   font_awesome_flutter:
   carousel_slider:
   dio: ^5.0.0
+  flutter_screenutil: ^5.8.1
+  permission_handler: ^10.2.0
   go_router:
   # map test
   geolocator:

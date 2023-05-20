@@ -6,21 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/global/widgets/show_flutter_toast.dart';
+import '../../../fuel/presentation/screens/fuel_order_screen.dart';
 import '../../../winch/presentation/screens/winch_service_screen.dart';
 import '../../domain/entities/profile_entities/profile_entity.dart';
 import '../components/category_components/category_item.dart';
 import '../components/global_components/layout_header.dart';
 
 class CategoriesScreen extends StatelessWidget {
-
   const CategoriesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LayoutCubit, LayoutStates>(
-      listener: (context, state) {
-
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         LayoutCubit cubit = LayoutCubit.get(context);
 
@@ -37,14 +35,20 @@ class CategoriesScreen extends StatelessWidget {
                   CategoryItem(
                       categoryTitle: 'Fuel',
                       image: 'assets/images/fuel pump.png',
-                      onTap: () {}),
+                      onTap: () {
+                        navigateTo(
+                            context: context,
+                            destination: FuelOrderScreen());
+                      }),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .1,
                   ),
                   CategoryItem(
                       categoryTitle: 'Repair',
                       image: 'assets/images/car repair.png',
-                      onTap: () {}),
+                      onTap: () {
+
+                      }),
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),

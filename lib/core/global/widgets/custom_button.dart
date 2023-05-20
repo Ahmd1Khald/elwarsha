@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -16,7 +17,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: 50.h,
       child: ElevatedButton(
         style: ButtonStyle(
           shape: MaterialStatePropertyAll(
