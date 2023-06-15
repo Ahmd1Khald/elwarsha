@@ -1,11 +1,11 @@
-import 'package:elwarsha/winch/domain/entities/winch_data.dart';
+import 'package:elwarsha/car_wash/domain/entities/wash_data.dart';
 import 'package:equatable/equatable.dart';
 
-class WinchEntity extends Equatable {
+class WashEntity extends Equatable {
   final String message;
-  final WinchDataEntity order;
+  final WashDataEntity order;
 
-  WinchEntity({
+  WashEntity({
     required this.message,
     required this.order,
   });

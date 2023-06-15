@@ -8,4 +8,7 @@ class ApiConstants {
   static const String slideEndPoint = 'slide';
   static const String productsEndPoint = 'products';
   static const String profileEndPoint = 'profile';
+  static const String makeWinchOrder = 'MakeWinchOrder';
+  static const String makeWashOrder = 'MakeWashOrder';
+  static const String makeRepairOrder = 'MakeRepairOrder';
 }

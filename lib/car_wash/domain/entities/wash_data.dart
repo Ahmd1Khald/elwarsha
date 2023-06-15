@@ -1,31 +1,25 @@
 import 'package:equatable/equatable.dart';
 
-class WinchDataEntity extends Equatable {
+class WashDataEntity extends Equatable {
   final int userId;
   final String type;
   final String carType;
-  final String cityFrom;
-  final String cityTo;
-  final double lagFrom;
-  final double latFrom;
-  final double lagTo;
-  final double latTo;
+  final String city;
+  final double lag;
+  final double lat;
   final int status;
   final String description;
   final String updatedAt;
   final String createdAt;
   final int id;
 
-  WinchDataEntity({
+  WashDataEntity({
     required this.userId,
     required this.type,
     required this.carType,
-    required this.cityFrom,
-    required this.cityTo,
-    required this.lagFrom,
-    required this.latFrom,
-    required this.lagTo,
-    required this.latTo,
+    required this.city,
+    required this.lag,
+    required this.lat,
     required this.status,
     required this.description,
     required this.updatedAt,
@@ -39,12 +33,9 @@ class WinchDataEntity extends Equatable {
         userId,
         type,
         carType,
-        cityFrom,
-        cityTo,
-        lagFrom,
-        latFrom,
-        lagTo,
-        latTo,
+        city,
+        lag,
+        lat,
         status,
         description,
         updatedAt,

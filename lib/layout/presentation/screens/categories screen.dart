@@ -1,7 +1,9 @@
+import 'package:elwarsha/car_wash/presetation/screens/car_wash_order_screen.dart';
 import 'package:elwarsha/core/constant/app_color_constant.dart';
 import 'package:elwarsha/core/global/widgets/navigate_to.dart';
 import 'package:elwarsha/layout/presentation/controller/layout_cubit/layout_cubit.dart';
 import 'package:elwarsha/layout/presentation/controller/layout_cubit/layout_state.dart';
+import 'package:elwarsha/repair/presentation/screens/repair_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,7 +49,7 @@ class CategoriesScreen extends StatelessWidget {
                       categoryTitle: 'Repair',
                       image: 'assets/images/car repair.png',
                       onTap: () {
-
+                        navigateTo(context: context, destination: RepairOrderScreen());
                       }),
                 ],
               ),
@@ -58,7 +60,9 @@ class CategoriesScreen extends StatelessWidget {
                   CategoryItem(
                       categoryTitle: 'Car Wash',
                       image: 'assets/images/car wash.png',
-                      onTap: () {}),
+                      onTap: () {
+                        navigateTo(context: context, destination: CarWashOrderScreen());
+                      }),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .1,
                   ),

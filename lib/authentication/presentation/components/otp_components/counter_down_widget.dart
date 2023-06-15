@@ -25,6 +25,8 @@ class _CountdownWidgetState extends State<CountdownWidget> {
       setState(() {
         if (_countdownValue < 1) {
           timer.cancel();
+          Navigator.pop(context);
+          Navigator.pop(context);
         } else {
           _countdownValue = _countdownValue - 1;
         }

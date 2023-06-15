@@ -74,7 +74,7 @@ class LayoutDataSource extends BaseLayoutDataSource {
         endPoint: ApiConstants.profileEndPoint,
         token: parameter.token,
       );
-      print(response.data);
+      print("Kerollos ${response.data}");
       return ProfileModel.fromJson(response.data);
     }on DioError catch (error) {
       if (error.response!.data is Map) {

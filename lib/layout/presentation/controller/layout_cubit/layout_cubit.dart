@@ -1,8 +1,5 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
-import 'package:elwarsha/authentication/domain/usecase/send_verfy_code_usecase.dart';
-import 'package:elwarsha/core/constant/app_variable_constants.dart';
 import 'package:elwarsha/layout/domain/entities/profile_entities/profile_entity.dart';
 import 'package:elwarsha/layout/domain/usecase/get_products_usecase.dart';
 import 'package:elwarsha/layout/presentation/screens/more_screen.dart';
@@ -11,16 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../../authentication/domain/entities/auth_entity.dart';
-import '../../../../core/services/cache_helper.dart';
-import '../../../../core/services/location_helper.dart';
 import '../../../domain/usecase/get_profile_data_usecase.dart';
 import '../../../domain/usecase/get_slides_usecase.dart';
 import '../../screens/categories screen.dart';
 import '../../screens/home_screen.dart';
 import '../../screens/orders screen.dart';
 import 'layout_state.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class LayoutCubit extends Cubit<LayoutStates> {
   final GetSlidesUserCase getSlides;
