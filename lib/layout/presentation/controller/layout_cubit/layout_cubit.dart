@@ -1,8 +1,5 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
-import 'package:elwarsha/authentication/domain/usecase/send_verfy_code_usecase.dart';
-import 'package:elwarsha/core/constant/app_variable_constants.dart';
 import 'package:elwarsha/layout/domain/entities/profile_entities/profile_entity.dart';
 import 'package:elwarsha/layout/domain/usecase/get_products_usecase.dart';
 import 'package:elwarsha/layout/presentation/screens/more_screen.dart';
@@ -11,9 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../../authentication/domain/entities/auth_entity.dart';
-import '../../../../core/services/cache_helper.dart';
-import '../../../../core/services/location_helper.dart';
 import '../../../domain/usecase/get_profile_data_usecase.dart';
 import '../../../domain/usecase/get_slides_usecase.dart';
 import '../../screens/categories screen.dart';
@@ -130,15 +124,47 @@ class LayoutCubit extends Cubit<LayoutStates> {
   late Position? position;
 
   Future<void> getUserCurrentLocation() async {
-    await LocationHelper.detectCurrentLocation();
-    position = await Geolocator.getLastKnownPosition().whenComplete(() {
+    try {
+      bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!isServiceEnabled) {
+        await Geolocator.requestPermission();
+      }
+
+       await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      position = await Geolocator.getLastKnownPosition();
       lat = position!.latitude.toString();
       long = position!.longitude.toString();
       emit(SuccessGetUserCurrentLocationState(lat, long));
       print('lat =>$lat , long =>$long');
-
-    }).catchError((error) {
+    } catch (error) {
+      print("Kerollos: ${error.toString()}");
       emit(ErrorGetUserCurrentLocationState(error.toString()));
-    });
+    }
   }
+ /* Future<void> getUserCurrentLocation() async {
+    try {
+      // Request location permission
+      PermissionStatus permissionStatus = await Permission.location.request();
+
+      // Check if permission is granted
+      if (permissionStatus.isGranted) {
+        // Location permission granted, proceed with getting the current location
+        await LocationHelper.detectCurrentLocation();
+        position = await Geolocator.getLastKnownPosition();
+        lat = position!.latitude.toString();
+        long = position!.longitude.toString();
+        emit(SuccessGetUserCurrentLocationState(lat, long));
+        print('lat => $lat, long => $long');
+      } else {
+        // Location permission not granted, handle accordingly
+        emit(ErrorGetUserCurrentLocationState('Location permission not granted.'));
+      }
+    } catch (error) {
+      print("Kerollos: ${error.toString()}");
+      emit(ErrorGetUserCurrentLocationState(error.toString()));
+    }
+  }*/
+
 }
